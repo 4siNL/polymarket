@@ -6,7 +6,6 @@ def user_directory_path(instance, filename):
     return "user_{0}/{1}".format(instance.username, filename)
 
 
-# Create your models here.
 class Account(AbstractUser):
     email = models.EmailField('Электронная почта', unique=True)
     username = models.CharField('Имя пользователя', max_length=20,
