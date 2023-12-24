@@ -10,7 +10,7 @@ class Account(AbstractUser):
     email = models.EmailField('Электронная почта', unique=True)
     username = models.CharField('Имя пользователя', max_length=20,
                                 unique=True)
-    password = models.CharField('Пароль', max_length=64)
+    password = models.CharField('Пароль', max_length=128)
     about = models.TextField('О себе', blank=True)
     reg_date = models.DateTimeField('Дата регистрации',
                                     auto_now_add=True)
