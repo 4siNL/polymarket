@@ -1,8 +1,9 @@
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 from .forms import RegisterForm
+from .models import Service
 
 
 def index(request):
@@ -17,3 +18,11 @@ class RegisterView(CreateView):
 
 class AccountLoginView(LoginView):
     template_name = 'main/login.html'
+
+
+class CatalogView(ListView):
+    model = Service
+    template_name = 'main/catalog.html'
+
+    def get_queryset(self):
+        return Service.objects.filter(is_active=True)

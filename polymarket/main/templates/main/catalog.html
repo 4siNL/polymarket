@@ -1,0 +1,77 @@
+{% extends 'main/base.html' %}
+
+{% block style %}
+.btn .hover-text {
+display: none;
+}
+
+.btn:hover .original-text {
+display: none;
+}
+
+.btn:hover .hover-text {
+display: inline;
+}
+
+.d-block {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+{% endblock %}
+
+{% block title %}
+Каталог
+{% endblock %}
+
+{% block content %}
+<h1>Каталог услуг</h1>
+
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for service in service_list %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <img class="bd-placeholder-img card-img-top" width="100%"
+                         height="225" src="{{ service.picture.url }}"/>
+                    <div class="card-body">
+                        <p class="card-text">{{ service.title }}</p>
+                        <div>
+                            <div class="d-block mb-2">
+                                <button type="button"
+                                        class="btn btn-sm btn-primary">
+                                    <span class="original-text">{{ service.price }}</span>
+                                    <span class="hover-text">Заказать</span>
+                                </button>
+
+                                <button type="button"
+                                        class="btn btn-sm btn-outline-secondary">
+                                    Изменить
+                                </button>
+                                <button type="button"
+                                        class="btn btn-sm btn-outline-secondary">
+                                    Удалить
+                                </button>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <small class="text-body-secondary">
+                                    {{ service.owner.username }}</small>
+                                <small class="text-body-secondary" title="Количество успешных выполнений данной услуги">
+                                    {{ service.orders }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <h1>Пока здесь пусто...</h1>
+            {% endfor %}
+
+        </div>
+    </div>
+</div>
+
+{% endblock %}
