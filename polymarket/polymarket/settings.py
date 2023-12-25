@@ -128,3 +128,4 @@ MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'main.Account'
 LOGIN_REDIRECT_URL = 'main'
+LOGOUT_REDIRECT_URL = 'main'

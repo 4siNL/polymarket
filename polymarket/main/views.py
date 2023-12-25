@@ -1,4 +1,4 @@
-from django.contrib.auth.views import LoginView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -21,6 +21,10 @@ class AccountLoginView(LoginView):
     template_name = 'main/login.html'
 
 
+class AccountLogoutView(LogoutView):
+    pass
+
+
 class CatalogView(ListView):
     model = Service
     template_name = 'main/catalog.html'
@@ -38,3 +42,10 @@ class DeleteServiceView(DeleteView):
         if self.object.owner.id == self.request.user.id:
             return super().form_valid(form)
         return HttpResponseRedirect(self.get_success_url())
+
+
+class CreateServiceView(CreateView):
+    model = Service
+    fields = ['title', 'price', 'description', 'picture']
+    template_name = 'main/create_service.html'
+    success_url = reverse_lazy('catalog')
