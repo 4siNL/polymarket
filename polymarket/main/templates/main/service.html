@@ -14,9 +14,11 @@
 <p>Количество успешных выполнений данного заказа: {{ object.orders }}</p>
 <p>Цена: {{ object.price }} руб.</p>
 <p>Дата публикации: {{ object.date_created|date }}</p>
+{% if object.owner.id != user.id %}
 <a href="/catalog/{{ object.id }}/order">
     <button type="button" class="btn btn-primary">Заказать</button>
 </a>
+{% endif %}
 {% else %}
 <h1>Услуга скрыта</h1>
 {% endif %}

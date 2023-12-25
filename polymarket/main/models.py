@@ -61,7 +61,13 @@ class Order(models.Model):
     date_created = models.DateTimeField('Дата сделки', auto_now_add=True)
 
     def __str__(self):
-        return self.date_created
+        return str(self.date_created)
+
+    def update_counter(self):
+        self.service.owner.orders += 1
+        self.service.orders += 1
+        self.service.owner.save()
+        self.service.save()
 
     class Meta:
         verbose_name = 'Заказ'

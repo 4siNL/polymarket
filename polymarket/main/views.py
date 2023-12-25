@@ -1,9 +1,9 @@
 from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView, \
-    DetailView
+    DetailView, RedirectView
 from .forms import RegisterForm
 from .models import *
 
@@ -98,3 +98,16 @@ class UpdateAccountView(UpdateView):
         if form.instance.id == self.request.user.id:
             return super().form_valid(form)
         return HttpResponseRedirect(self.get_success_url())
+
+
+class OrderView(RedirectView):
+    url = '/catalog/'
+
+    def get_redirect_url(self, *args, **kwargs):
+        buyer = self.request.user
+        service = get_object_or_404(Service, pk=kwargs['pk'])
+        if buyer.id == service.owner.id:
+            return super().get_redirect_url(*args, **kwargs)
+        new_order = Order.objects.create(buyer=buyer, service=service)
+        new_order.update_counter()
+        return super().get_redirect_url(*args, **kwargs)
