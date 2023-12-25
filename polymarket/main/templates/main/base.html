@@ -30,8 +30,10 @@
                class="nav-link px-2 {% if request.path == '/' %}link-secondary{% endif %}">Главная</a></li>
         <li><a href="/catalog"
                class="nav-link px-2 {% if request.path == '/catalog' %}link-secondary{% endif %}">Каталог услуг</a></li>
+        {% if user.is_authenticated %}
         <li><a href="/catalog/create"
                class="nav-link px-2 {% if request.path == '/catalog/create' %}link-secondary{% endif %}">Создать услугу</a></li>
+        {% endif %}
     </ul>
 
     <div class="col-md-3 text-end">

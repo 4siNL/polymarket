@@ -9,10 +9,14 @@
     {% csrf_token %}
     <img class="mb-4" src="/media/default.png" alt=""
          width="72" height="57">
+    {% if user.is_authenticated %}
     <h1 class="h3 mb-3 fw-normal">Создание услуги</h1>
     {{ form.as_p }}
     <button class="btn btn-primary w-100 py-2" type="submit" value="Save">
         Создать услугу
     </button>
+    {% else %}
+    <h1>Услуги могут создавать только авторизированные пользователи!</h1>
+    {% endif %}
 </form>
 {% endblock %}

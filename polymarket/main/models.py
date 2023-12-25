@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MinValueValidator
 from django.db import models
 
 
@@ -36,7 +37,8 @@ class Account(AbstractUser):
 
 class Service(models.Model):
     title = models.CharField('Название услуги', max_length=128)
-    price = models.DecimalField('Цена услуги', max_digits=11, decimal_places=2)
+    price = models.DecimalField('Цена услуги', max_digits=11, decimal_places=2,
+                                validators=[MinValueValidator(0.0099)])
     description = models.TextField('Описание услуги')
     date_created = models.DateTimeField('Дата создания', auto_now_add=True)
     owner = models.ForeignKey(Account, on_delete=models.CASCADE)

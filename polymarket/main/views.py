@@ -49,3 +49,7 @@ class CreateServiceView(CreateView):
     fields = ['title', 'price', 'description', 'picture']
     template_name = 'main/create_service.html'
     success_url = reverse_lazy('catalog')
+
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
