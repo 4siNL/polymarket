@@ -1,4 +1,5 @@
 from django.contrib.auth.views import LoginView
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DeleteView
@@ -32,3 +33,8 @@ class DeleteServiceView(DeleteView):
     model = Service
     success_url = reverse_lazy('catalog')
     template_name = 'main/delete_service.html'
+
+    def form_valid(self, form):
+        if self.object.owner.id == self.request.user.id:
+            return super().form_valid(form)
+        return HttpResponseRedirect(self.get_success_url())
