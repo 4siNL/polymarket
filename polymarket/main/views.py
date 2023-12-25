@@ -1,7 +1,7 @@
 from django.contrib.auth.views import LoginView
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, DeleteView
 from .forms import RegisterForm
 from .models import Service
 
@@ -26,3 +26,9 @@ class CatalogView(ListView):
 
     def get_queryset(self):
         return Service.objects.filter(is_active=True)
+
+
+class DeleteServiceView(DeleteView):
+    model = Service
+    success_url = reverse_lazy('catalog')
+    template_name = 'main/delete_service.html'
