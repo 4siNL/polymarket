@@ -53,3 +53,16 @@ class Service(models.Model):
     class Meta:
         verbose_name = 'Услуга'
         verbose_name_plural = 'Услуги'
+
+
+class Order(models.Model):
+    buyer = models.ForeignKey(Account, on_delete=models.DO_NOTHING)
+    service = models.ForeignKey(Service, on_delete=models.DO_NOTHING)
+    date_created = models.DateTimeField('Дата сделки', auto_now_add=True)
+
+    def __str__(self):
+        return self.date_created
+
+    class Meta:
+        verbose_name = 'Заказ'
+        verbose_name_plural = 'Заказы'
