@@ -12,5 +12,6 @@ urlpatterns = [
     path('catalog/create', views.CreateServiceView.as_view(),
          name='create_service'),
     path('catalog/<pk>/update/', views.UpdateServiceView.as_view(),
-         name='update_service')
+         name='update_service'),
+    path('catalog/<pk>', views.ServiceView.as_view(), name='service')
 ]

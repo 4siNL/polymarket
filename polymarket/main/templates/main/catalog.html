@@ -41,11 +41,12 @@ display: inline;
                         <p class="card-text">{{ service.title }}</p>
                         <div>
                             <div class="d-block mb-2">
+                                <a href="/catalog/{{ service.id }}">
                                 <button type="button"
                                         class="btn btn-sm btn-primary">
                                     <span class="original-text">{{ service.price }}</span>
                                     <span class="hover-text">Заказать</span>
-                                </button>
+                                </button></a>
                                 {% if user.id == service.owner.id %}
                                 <a href="/catalog/{{ service.id }}/update">
                                 <button type="button"
