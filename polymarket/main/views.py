@@ -15,7 +15,7 @@ def index(request):
 class RegisterView(CreateView):
     form_class = RegisterForm
     template_name = 'main/register.html'
-    success_url = reverse_lazy('main')
+    success_url = reverse_lazy('login')
 
 
 class AccountLoginView(LoginView):
@@ -83,3 +83,18 @@ class ProfileView(DetailView):
                                                      owner__id=self.kwargs.get(
                                                          'pk'))
         return context
+
+
+class UpdateAccountView(UpdateView):
+    model = Account
+    fields = ['about', 'avatar']
+    template_name = 'main/update_account.html'
+
+    def get_success_url(self):
+        success_url = reverse_lazy('profile', kwargs={'pk': self.object.pk})
+        return success_url
+
+    def form_valid(self, form):
+        if form.instance.id == self.request.user.id:
+            return super().form_valid(form)
+        return HttpResponseRedirect(self.get_success_url())

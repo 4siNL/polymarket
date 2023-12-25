@@ -14,5 +14,7 @@ urlpatterns = [
     path('catalog/<pk>/update/', views.UpdateServiceView.as_view(),
          name='update_service'),
     path('catalog/<pk>/', views.ServiceView.as_view(), name='service'),
-    path('profile/<pk>/', views.ProfileView.as_view(), name='profile')
+    path('profile/<pk>/', views.ProfileView.as_view(), name='profile'),
+    path('profile/<pk>/update/', views.UpdateAccountView.as_view(),
+         name='update_account')
 ]

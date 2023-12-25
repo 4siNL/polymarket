@@ -33,6 +33,10 @@ display: inline;
 <p>Количество успешных заказов: {{ object.orders }}</p>
 <p>Дата регистрации: {{ object.reg_date|date }}</p>
 <p>Блокировка: {{ object.block }}</p>
+{% if object.id == user.id %}
+<a href="/profile/{{ object.id }}/update">
+    <button type="button" class="btn btn-primary">Редактировать аккаунт</button></a>
+{% endif %}
 
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
