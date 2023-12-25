@@ -5,14 +5,19 @@
 {% endblock %}
 
 {% block content %}
+{% if object.is_active and object.owner.is_active %}
 <img width="225" height="225" src="{{ object.picture.url }}"/>
 <h1>{{ object.title }}</h1>
 <p>{{ object.description }}</p>
-<p>Исполнитель: {{ object.owner.username }}</p>
+<a href="/profile/{{ object.owner.id }}">
+    <p>Исполнитель: {{ object.owner.username }}</p></a>
 <p>Количество успешных выполнений данного заказа: {{ object.orders }}</p>
 <p>Цена: {{ object.price }} руб.</p>
 <p>Дата публикации: {{ object.date_created|date }}</p>
 <a href="/catalog/{{ object.id }}/order">
     <button type="button" class="btn btn-primary">Заказать</button>
 </a>
+{% else %}
+<h1>Услуга скрыта</h1>
+{% endif %}
 {% endblock %}

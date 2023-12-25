@@ -5,7 +5,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, DeleteView, UpdateView, \
     DetailView
 from .forms import RegisterForm
-from .models import Service
+from .models import *
 
 
 def index(request):
@@ -71,3 +71,15 @@ class UpdateServiceView(UpdateView):
 class ServiceView(DetailView):
     model = Service
     template_name = 'main/service.html'
+
+
+class ProfileView(DetailView):
+    model = Account
+    template_name = 'main/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['services'] = Service.objects.filter(is_active=True,
+                                                     owner__id=self.kwargs.get(
+                                                         'pk'))
+        return context

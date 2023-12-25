@@ -22,18 +22,22 @@ display: inline;
 {% endblock %}
 
 {% block title %}
-Каталог
+Профиль
 {% endblock %}
 
 {% block content %}
-<h1>Каталог услуг</h1>
+{% if object.is_active %}
+<img width="225" height="225" src="{{ object.avatar.url }}"/>
+<h1>{{ object.username }}</h1>
+<p>{{ object.about }}</p>
+<p>Количество успешных заказов: {{ object.orders }}</p>
+<p>Дата регистрации: {{ object.reg_date|date }}</p>
+<p>Блокировка: {{ object.block }}</p>
 
 <div class="album py-5 bg-body-tertiary">
     <div class="container">
-
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-            {% for service in service_list %}
-            {% if service.owner.is_active %}
+            {% for service in services %}
             <div class="col">
                 <div class="card shadow-sm">
                     <img class="bd-placeholder-img card-img-top" width="100%"
@@ -43,42 +47,44 @@ display: inline;
                         <div>
                             <div class="d-block mb-2">
                                 <a href="/catalog/{{ service.id }}">
-                                <button type="button"
-                                        class="btn btn-sm btn-primary">
-                                    <span class="original-text">{{ service.price }}</span>
-                                    <span class="hover-text">Заказать</span>
-                                </button></a>
+                                    <button type="button"
+                                            class="btn btn-sm btn-primary">
+                                        <span class="original-text">{{ service.price }}</span>
+                                        <span class="hover-text">Заказать</span>
+                                    </button></a>
                                 {% if user.id == service.owner.id %}
                                 <a href="/catalog/{{ service.id }}/update">
-                                <button type="button"
-                                        class="btn btn-sm btn-outline-secondary">
-                                    Изменить
-                                </button></a>
+                                    <button type="button"
+                                            class="btn btn-sm btn-outline-secondary">
+                                        Изменить
+                                    </button></a>
                                 <a href="/catalog/{{ service.id }}/delete">
-                                <button type="button"
-                                        class="btn btn-sm btn-outline-secondary">
-                                    Удалить
-                                </button></a>
+                                    <button type="button"
+                                            class="btn btn-sm btn-outline-secondary">
+                                        Удалить
+                                    </button></a>
                                 {% endif %}
                             </div>
                             <div class="d-flex justify-content-between align-items-center mt-2">
                                 <a href="/profile/{{ service.owner.id }}">
-                                <small class="text-body-secondary">
-                                    {{ service.owner.username }}</small></a>
-                                <small class="text-body-secondary" title="Количество успешных выполнений данной услуги">
+                                    <small class="text-body-secondary">
+                                        {{ service.owner.username }}</small></a>
+                                <small class="text-body-secondary"
+                                       title="Количество успешных выполнений данной услуги">
                                     {{ service.orders }}</small>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {% endif %}
             {% empty %}
             <h1>Пока здесь пусто...</h1>
             {% endfor %}
-
         </div>
     </div>
 </div>
 
+{% else %}
+<h1>Аккаунт удалён</h1>
+{% endif %}
 {% endblock %}
