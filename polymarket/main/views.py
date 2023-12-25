@@ -2,7 +2,7 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView, DeleteView
+from django.views.generic import CreateView, ListView, DeleteView, UpdateView
 from .forms import RegisterForm
 from .models import Service
 
@@ -53,3 +53,15 @@ class CreateServiceView(CreateView):
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)
+
+
+class UpdateServiceView(UpdateView):
+    model = Service
+    fields = ['title', 'price', 'description', 'picture']
+    template_name = 'main/update_service.html'
+    success_url = reverse_lazy('catalog')
+
+    def form_valid(self, form):
+        if form.instance.owner.id == self.request.user.id:
+            return super().form_valid(form)
+        return HttpResponseRedirect(self.get_success_url())
