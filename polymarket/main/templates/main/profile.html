@@ -42,6 +42,7 @@ display: inline;
     <div class="container">
         <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
             {% for service in services %}
+            {% if service.is_active or service.owner.id == user.id %}
             <div class="col">
                 <div class="card shadow-sm">
                     <img class="bd-placeholder-img card-img-top" width="100%"
@@ -81,6 +82,7 @@ display: inline;
                     </div>
                 </div>
             </div>
+            {% endif %}
             {% empty %}
             <h1>Пока здесь пусто...</h1>
             {% endfor %}
