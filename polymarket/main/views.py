@@ -105,7 +105,7 @@ class OrderView(RedirectView):
     def get_redirect_url(self, *args, **kwargs):
         buyer = self.request.user
         service = get_object_or_404(Service, pk=kwargs['pk'])
-        if buyer.id == service.owner.id:
+        if buyer.id == service.owner.id or not buyer.is_authenticated:
             return super().get_redirect_url(*args, **kwargs)
         new_order = Order.objects.create(buyer=buyer, service=service)
         new_order.update_counter()
