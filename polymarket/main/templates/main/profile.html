@@ -1,0 +1,96 @@
+{% extends 'main/base.html' %}
+
+{% block style %}
+.btn .hover-text {
+display: none;
+}
+
+.btn:hover .original-text {
+display: none;
+}
+
+.btn:hover .hover-text {
+display: inline;
+}
+
+.d-block {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+{% endblock %}
+
+{% block title %}
+Профиль
+{% endblock %}
+
+{% block content %}
+{% if object.is_active %}
+<img width="225" height="225" src="{{ object.avatar.url }}"/>
+<h1>{{ object.username }}</h1>
+<p>{{ object.about }}</p>
+<p>Количество успешных заказов: {{ object.orders }}</p>
+<p>Дата регистрации: {{ object.reg_date|date }}</p>
+<p>Блокировка: {{ object.block }}</p>
+{% if object.id == user.id %}
+<a href="/profile/{{ object.id }}/update">
+    <button type="button" class="btn btn-primary">Редактировать аккаунт</button></a>
+{% endif %}
+
+<div class="album py-5 bg-body-tertiary">
+    <div class="container">
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            {% for service in services %}
+            {% if service.is_active or service.owner.id == user.id %}
+            <div class="col">
+                <div class="card shadow-sm">
+                    <img class="bd-placeholder-img card-img-top" width="100%"
+                         height="225" src="{{ service.picture.url }}"/>
+                    <div class="card-body">
+                        <p class="card-text">{{ service.title }}</p>
+                        <div>
+                            <div class="d-block mb-2">
+                                <a href="/catalog/{{ service.id }}">
+                                    <button type="button"
+                                            class="btn btn-sm btn-primary">
+                                        <span class="original-text">{{ service.price }}</span>
+                                        <span class="hover-text">Заказать</span>
+                                    </button></a>
+                                {% if user.id == service.owner.id %}
+                                <a href="/catalog/{{ service.id }}/update">
+                                    <button type="button"
+                                            class="btn btn-sm btn-outline-secondary">
+                                        Изменить
+                                    </button></a>
+                                <a href="/catalog/{{ service.id }}/delete">
+                                    <button type="button"
+                                            class="btn btn-sm btn-outline-secondary">
+                                        Удалить
+                                    </button></a>
+                                {% endif %}
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mt-2">
+                                <a href="/profile/{{ service.owner.id }}">
+                                    <small class="text-body-secondary">
+                                        {{ service.owner.username }}</small></a>
+                                <small class="text-body-secondary"
+                                       title="Количество успешных выполнений данной услуги">
+                                    {{ service.orders }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% empty %}
+            <h1>Пока здесь пусто...</h1>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% else %}
+<h1>Аккаунт удалён</h1>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Удаление
+{% endblock %}
+
+{% block content %}
+{% if user.id == object.owner.id %}
+<form method="post">{% csrf_token %}
+    <p>Вы действительно хотите удалить услугу "{{ object }}"?</p>
+    {{ form }}
+    <input type="submit" value="Подтвердить">
+    <a href="/catalog">
+        <input type="button" value="Отмена">
+    </a>
+</form>
+{% else %}
+<h1>Услугу может удалять только её авторизированный владелец!</h1>
+{% endif %}
+{% endblock %}

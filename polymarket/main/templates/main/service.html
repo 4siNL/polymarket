@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Услуга
+{% endblock %}
+
+{% block content %}
+{% if object.is_active and object.owner.is_active %}
+<img width="225" height="225" src="{{ object.picture.url }}"/>
+<h1>{{ object.title }}</h1>
+<p>{{ object.description }}</p>
+<a href="/profile/{{ object.owner.id }}">
+    <p>Исполнитель: {{ object.owner.username }}</p></a>
+<p>Количество успешных выполнений данного заказа: {{ object.orders }}</p>
+<p>Цена: {{ object.price }} руб.</p>
+<p>Дата публикации: {{ object.date_created|date }}</p>
+{% if object.owner.id != user.id and user.is_authenticated %}
+<a href="/catalog/{{ object.id }}/order">
+    <button type="button" class="btn btn-primary">Заказать</button>
+</a>
+{% endif %}
+{% else %}
+<h1>Услуга скрыта</h1>
+{% endif %}
+{% endblock %}
